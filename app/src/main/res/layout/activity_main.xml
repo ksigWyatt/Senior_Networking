@@ -8,6 +8,8 @@
     android:background="@color/colorPrimary"
     tools:context="com.sn.stepcounter.stepcounter.MainActivity">
 
+
+
     <TextView
         android:id="@+id/steps_count"
         android:layout_width="wrap_content"
@@ -66,5 +68,57 @@
         app:pb_textProgress="Connecting"
         app:pb_textError="Error"
         app:pb_colorError="@color/red_error"></com.dd.processbutton.iml.ActionProcessButton>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        app:menu_fab_size="normal"
+        app:menu_colorNormal="#DA4336"
+        app:menu_colorPressed="#E75043"
+        app:menu_colorRipple="#99FFFFFF"
+        app:menu_animationDelayPerItem="50"
+        app:menu_icon="@drawable/fab_add"
+        app:menu_buttonSpacing="0dp"
+        app:menu_openDirection="up"
+        app:menu_backgroundColor="@android:color/transparent"
+       >
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/connect_btn"
+        android:layout_gravity="bottom|right"
+        android:layout_marginEnd="36dp"
+        android:src="@drawable/ic_exit"
+        app:fab_colorNormal="#DA4336"
+        app:fab_colorPressed="#E75043"
+        app:fab_colorRipple="#99FFFFFF"
+        android:onClick="logoutClicked"
+        app:fab_size="normal"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/result_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/connect_btn"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="36dp"
+            android:onClick="resultClicked"
+            android:src="@drawable/ic_chart"
+            app:fab_colorNormal="#DA4336"
+            app:fab_colorPressed="#E75043"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_size="normal"/>
+    </com.github.clans.fab.FloatingActionMenu>
+
 
 </RelativeLayout>

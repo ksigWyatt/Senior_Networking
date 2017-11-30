@@ -76,6 +76,7 @@ public class AvailiableDevice extends AppCompatActivity {
                 final BluetoothDevice device = mBtAdapter
                         .getRemoteDevice(macAddress);
                 pairDevice(device);
+
                 Toast.makeText(getApplicationContext(), "Paired", Toast.LENGTH_SHORT).show();
                 finish();
 
