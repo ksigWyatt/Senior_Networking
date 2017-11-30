@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(getApplication(),"Activity Destroy",Toast.LENGTH_SHORT).show();
+
         if(mBluetoothDevice!=null) {
             unpairDevice(mBluetoothDevice);
         }
@@ -498,6 +498,7 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void logoutClicked(View view) {
+        Toast.makeText(getApplication(),"Logged Out",Toast.LENGTH_SHORT).show();
         FirebaseAuth.getInstance().signOut();
         startActivity(login.class);
         finish();
