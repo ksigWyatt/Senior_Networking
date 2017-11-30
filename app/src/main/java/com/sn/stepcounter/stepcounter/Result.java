@@ -156,7 +156,7 @@ public class Result extends AppCompatActivity   {
          chart.setPinchZoom(false);
          chart.setScaleEnabled(false);
          chart.setDrawGridBackground(false);
-         chart.setDrawValueAboveBar(false);
+         chart.setDrawValueAboveBar(true);
          chart.setNoDataTextColor(getResources().getColor(R.color.blue_pressed));
          XAxis xAxis = chart.getXAxis();
 
