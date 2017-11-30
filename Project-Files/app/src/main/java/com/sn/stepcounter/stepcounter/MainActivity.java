@@ -25,21 +25,26 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.dd.processbutton.iml.ActionProcessButton;
-import com.github.pwittchen.swipe.library.Swipe;
-import com.github.pwittchen.swipe.library.SwipeListener;
+
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 import java.lang.reflect.Method;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.crypto.Mac;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     final int REQUEST_ENABLE_BT = 1;
     private  BluetoothAdapter mBluetoothAdapter;;
@@ -58,13 +63,22 @@ public class MainActivity extends AppCompatActivity {
     private ActionProcessButton btnConnect;
     private TextView stepsCount,date,miles;
     private long steps =0;
-    private Swipe swipe;
+    private FirebaseDatabase database ;
+    FloatingActionMenu mFloatingActionMenu;
+    private FirebaseUser currentUser;
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        overridePendingTransition(0,0);
+       database = database.getInstance();
+       currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         btnConnect =  findViewById(R.id.connect_btn);
         btnConnect.setMode(ActionProcessButton.Mode.ENDLESS);
@@ -77,62 +91,25 @@ public class MainActivity extends AppCompatActivity {
         Date d = new Date();
         String dayOfTheWeek = sdf.format(d);
         String datestr = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
-        date.setText(dayOfTheWeek+ ", "+datestr);
+        date.setText(dayOfTheWeek+ "  "+datestr);
 
         miles = findViewById(R.id.mile);
         miles.setText("0 \t miles");
-
-//swipe gensture
-        swipe = new Swipe(20,1000);
-        swipe.setListener(new SwipeListener() {
-                              @Override
-                              public void onSwipingLeft(MotionEvent event) {
-
-                              }
-
-                              @Override
-                              public void onSwipedLeft(MotionEvent event) {
+        mFloatingActionMenu =findViewById(R.id.menu);
+        resetWeekly();
 
 
 
-                              }
 
-                              @Override
-                              public void onSwipingRight(MotionEvent event) {
 
-                              }
 
-                              @Override
-                              public void onSwipedRight(MotionEvent event) {
-                                  Toast.makeText(getApplicationContext(),"Logged out ",Toast.LENGTH_SHORT).show();
-                                  FirebaseAuth.getInstance().signOut();
-                                  Intent i = new Intent(getApplicationContext(),login.class);
-                                  startActivity(i);
-                                  finish();
-                                  overridePendingTransition(R.anim.slide_from_left,R.anim.slide_to_right);
 
-                              }
 
-                              @Override
-                              public void onSwipingUp(MotionEvent event) {
 
-                              }
 
-                              @Override
-                              public void onSwipedUp(MotionEvent event) {
 
-                              }
 
-                              @Override
-                              public void onSwipingDown(MotionEvent event) {
 
-                              }
-
-                              @Override
-                              public void onSwipedDown(MotionEvent event) {
-
-                              }
-                          });
 
 
 // Initializes Bluetooth adapter.
@@ -272,16 +249,16 @@ public class MainActivity extends AppCompatActivity {
                     // turn stepcount off
                     btnConnect.setProgress(0);
                     btnConnect.setText("Start");
+                    updateDatabase(stepsCount.getText().toString());
                     String data = "1";
                     byte[] strBytes = data.getBytes();
                     BluetoothGattService mSVC = mBluetoothGatt.getService(mServiceUUID);
                     BluetoothGattCharacteristic mCH = mSVC.getCharacteristic(mButtonUUID);
                     mCH.setValue(strBytes);
                     mBluetoothGatt.writeCharacteristic(mCH);
-
-
                     stepsCount.setText("0");
                     miles.setText(String.valueOf(0) + "\t miles");
+
 
 
                 }else if(btnConnect.getText().equals("Start")){
@@ -427,14 +404,104 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Toast.makeText(getApplication(),"Activity Destroy",Toast.LENGTH_SHORT).show();
         if(mBluetoothDevice!=null) {
             unpairDevice(mBluetoothDevice);
         }
     }
 
-    @Override public boolean dispatchTouchEvent(MotionEvent event) {
-        swipe.dispatchTouchEvent(event);
-        return super.dispatchTouchEvent(event);
+
+    public void updateDatabase(final String steps){
+        Date now = new Date();
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat simpleDateformat2= new SimpleDateFormat("E");// the day of the week abbreviated
+        String date = simpleDateformat.format(now);
+        String day = simpleDateformat2.format(now);
+
+        Log.d(TAG,day + " "+date);
+        DatabaseReference mref= database.getReference("UsersStepData/"+currentUser.getUid()+"/WeeklyStepData");
+        mref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(day).child("date")==null||dataSnapshot.child(day).child("date").getValue(String.class).equals(date)){
+                    float oldStepsCount = dataSnapshot.child(day).child("stepsCount").getValue(float.class);
+                    float newStepsCount = oldStepsCount+Float.valueOf(steps);
+                    mref.child(day).child("stepsCount").setValue(newStepsCount);
+                    mref.child(day).child("date").setValue(date);
+                }else{
+                    for(DataSnapshot childSnap : dataSnapshot.getChildren()){
+                        if(childSnap.getKey().equals(day)){
+                            float newStepsCount = Float.valueOf(steps);
+                            mref.child(day).child("stepsCount").setValue(newStepsCount);
+                            mref.child(day).child("date").setValue(date);
+                        }else{
+                            mref.child(childSnap.getKey()).child("stepsCount").setValue((float)0);
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+    }
+    public void resetWeekly(){
+        DatabaseReference mref= database.getReference("UsersStepData/"+currentUser.getUid()+"/WeeklyStepData");
+        Date now = new Date();
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat simpleDateformat2= new SimpleDateFormat("E");// the day of the week abbreviated
+        String date = simpleDateformat.format(now);
+        String day = simpleDateformat2.format(now);
+        mref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child(day).child("date").getValue(String.class)!=null) {
+                    if (!dataSnapshot.child(day).child("date").getValue(String.class).equals(date)) {
+                        for (DataSnapshot childSnap : dataSnapshot.getChildren()) {
+                            mref.child(childSnap.getKey()).child("stepsCount").setValue((float) 0);
+                        }
+                    }
+                }
+                mref.child(day).child("date").setValue(date);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+
+    public void resultClicked(View view) {
+        mFloatingActionMenu.close(true);
+        startActivity(Result.class);
+        overridePendingTransition(R.anim.slide_from_right,R.anim.slide_to_left);
+    }
+
+    public void startActivity(Class<?> clazz) {
+        startActivity(new Intent(MainActivity.this, clazz));
+    }
+
+    public void logoutClicked(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(login.class);
+        finish();
+        overridePendingTransition(R.anim.slide_from_left,R.anim.slide_to_right);
     }
 }
 
