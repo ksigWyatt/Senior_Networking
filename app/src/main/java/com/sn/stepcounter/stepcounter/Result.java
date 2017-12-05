@@ -46,7 +46,7 @@ public class Result extends AppCompatActivity   {
     BarChart chart;
     FirebaseUser currentUser;
     ArrayList<StepData> mDataArrayList;
-    TextView reuslt_date,reuslt_distance,reuslt_steps;
+    TextView result_date,result_distance,result_steps;
     RelativeLayout mRelativeLayout;
 
 
@@ -65,9 +65,9 @@ public class Result extends AppCompatActivity   {
         chart = findViewById(R.id.chart);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDataArrayList = new ArrayList<>();
-        reuslt_date =findViewById(R.id.result_date);
-        reuslt_distance = findViewById(R.id.result_distance);
-        reuslt_steps = findViewById(R.id.result_steps);
+        result_date =findViewById(R.id.result_date);
+        result_distance = findViewById(R.id.result_distance);
+        result_steps = findViewById(R.id.result_steps);
         mRelativeLayout =findViewById(R.id.result_layout);
 
 
@@ -93,9 +93,9 @@ public class Result extends AppCompatActivity   {
 
                 totalMiles = totalSteps/5000;
 
-                reuslt_date.setText("Weekly Report");
-                reuslt_distance.setText("Total Miles:\t"+totalMiles);
-                reuslt_steps.setText("Total Steps:\t"+ (int)totalSteps);
+                result_date.setText("Weekly Report");
+                result_distance.setText("Total Miles:\t"+totalMiles);
+                result_steps.setText("Total Steps:\t"+ (int)totalSteps);
 
 
 
@@ -184,7 +184,7 @@ public class Result extends AppCompatActivity   {
              @Override
              public void onValueSelected(Entry e, Highlight h) {
 
-                // Toast.makeText(getApplicationContext(),String.valueOf((int) e.getX()),Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(),String.valueOf((int) e.getX()),Toast.LENGTH_SHORT).show();
                  DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("UsersStepData/"
                          +currentUser.getUid()+"/WeeklyStepData");
                  String day = days[(int)e.getX()];
@@ -193,12 +193,20 @@ public class Result extends AppCompatActivity   {
                      @Override
                      public void onDataChange(DataSnapshot dataSnapshot) {
                          StepData data =dataSnapshot.getValue(StepData.class);
-                         if(data.getDate()!=null && (int) e.getX()!=0){
+                         if(data.getDate()!=null) {
+                             result_date.setVisibility(View.VISIBLE);
+                             result_distance.setVisibility(View.VISIBLE);
                              YoYo.with(Techniques.FadeIn).duration(500).repeat(0).playOn(mRelativeLayout);
 
-                             reuslt_date.setText(day2+" "+data.getDate());
-                             reuslt_steps.setText("Steps:   "+String.valueOf((int)e.getY()));
-                             reuslt_distance.setText("Miles:   "+String.valueOf(e.getY()/5000));
+                             result_date.setText(day2 + " " + data.getDate());
+                             result_steps.setText("Steps:   " + String.valueOf((int) e.getY()));
+                             result_distance.setText("Miles:   " + String.valueOf(e.getY() / 5000));
+                         }else if(data.getDate()==null){
+                             YoYo.with(Techniques.FadeIn).duration(500).repeat(0).playOn(mRelativeLayout);
+
+                             result_date.setVisibility(View.INVISIBLE);
+                             result_steps.setText("No Data Avaliable");
+                             result_distance.setVisibility(View.INVISIBLE);
                          }else{
                              DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("UsersStepData/"
                                      +currentUser.getUid()+"/WeeklyStepData");
@@ -214,10 +222,11 @@ public class Result extends AppCompatActivity   {
 
                                      }
                                      totalMiles = totalSteps/5000;
-
-                                     reuslt_date.setText("Weekly Report");
-                                     reuslt_distance.setText("Total Miles:   "+totalMiles);
-                                     reuslt_steps.setText("Total Steps:   "+ (int)totalSteps);
+                                     result_date.setVisibility(View.VISIBLE);
+                                     result_distance.setVisibility(View.VISIBLE);
+                                     result_date.setText("Weekly Report");
+                                     result_distance.setText("Total Miles:   "+totalMiles);
+                                     result_steps.setText("Total Steps:   "+ (int)totalSteps);
 
                                  }
 
@@ -255,11 +264,13 @@ public class Result extends AppCompatActivity   {
 
                          }
                          totalMiles = totalSteps/5000;
+                         result_date.setVisibility(View.VISIBLE);
+                         result_distance.setVisibility(View.VISIBLE);
 
                          YoYo.with(Techniques.FadeIn).duration(500).repeat(0).playOn(mRelativeLayout);
-                         reuslt_date.setText("Weekly Report");
-                         reuslt_distance.setText("Total Miles:   "+totalMiles);
-                         reuslt_steps.setText("Total Steps:   "+ (int)totalSteps);
+                         result_date.setText("Weekly Report");
+                         result_distance.setText("Total Miles:   "+totalMiles);
+                         result_steps.setText("Total Steps:   "+ (int)totalSteps);
 
                      }
 

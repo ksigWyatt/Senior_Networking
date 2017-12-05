@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity  {
     private  BluetoothAdapter mBluetoothAdapter;;
     private BluetoothDevice mBluetoothDevice;
     final String TAG = "Name123";
-    final String MacAddress = "98:4F:EE:0F:96:90";
+    final String MacAddress = "98:4F:EE:0F:97:23";
     final String UUIDStr ="19b10012-e8f2-537e-4f6c-d104768a1214";
     final String serviceUUID ="19b10010-e8f2-537e-4f6c-d104768a1214";
      final UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
@@ -466,6 +466,7 @@ public class MainActivity extends AppCompatActivity  {
                     if (!dataSnapshot.child(day).child("date").getValue(String.class).equals(date)) {
                         for (DataSnapshot childSnap : dataSnapshot.getChildren()) {
                             mref.child(childSnap.getKey()).child("stepsCount").setValue((float) 0);
+                            mref.child(childSnap.getKey()).child("date").setValue(null);
                         }
                     }
                 }
