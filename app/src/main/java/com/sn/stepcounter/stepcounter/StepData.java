@@ -12,17 +12,11 @@ public class StepData implements Comparable<StepData> {
     private float day,stepsCount;
     private String date;
 
+    // empty constructor is needed for firebase database
+
     public StepData() {
     }
 
-
-
-
-
-    public StepData(float day, float stepsCount) {
-        this.day = day;
-        this.stepsCount = stepsCount;
-    }
 
     public StepData(float day, float stepsCount, String date) {
         this.day = day;
