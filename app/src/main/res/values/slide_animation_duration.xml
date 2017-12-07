@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="slide_animation_duration">220</integer>
-    <color name="colorPrimary">#ff9933</color>
-    <color name="colorPrimaryDark">#c66900</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="lightOrange">#fff3e0</color>
-    <color name="yellow">#FFFF00</color>
-    <color name="green">#98FB98</color>
 </resources>
