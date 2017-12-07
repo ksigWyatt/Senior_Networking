@@ -118,6 +118,22 @@
             app:fab_colorPressed="#E75043"
             app:fab_colorRipple="#99FFFFFF"
             app:fab_size="normal"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/sound_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/connect_btn"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="36dp"
+            android:onClick="soundClicked"
+            android:src="@drawable/ic_sound_on"
+            app:fab_colorNormal="#DA4336"
+            app:fab_colorPressed="#E75043"
+            app:fab_colorRipple="#99FFFFFF"
+            android:tag="on"
+            app:fab_size="normal"/>
+
     </com.github.clans.fab.FloatingActionMenu>
 
 

@@ -1,7 +1,7 @@
 package com.sn.stepcounter.stepcounter;
 
 import android.Manifest;
-import android.app.AlertDialog;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -11,26 +11,23 @@ import android.content.IntentFilter;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import dmax.dialog.SpotsDialog;
 
 public class AvailiableDevice extends AppCompatActivity {
 
     private BluetoothAdapter mBtAdapter;
     private ListView mLvDevices;
     private HashSet<String> mDeviceList= new HashSet<String>();
+    final String MacAddress = "98:4F:EE:0F:97:23";
     ArrayAdapter adapter;
     ProgressBar mProgressBar;
 
@@ -65,20 +62,25 @@ public class AvailiableDevice extends AppCompatActivity {
 
         }
         else {
-            Toast.makeText(this, "Bluetooth disabled or not available.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bluetooth disabled or not available.",
+                    Toast.LENGTH_SHORT).show();
         }
         mLvDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                Object entry =  adapterView.getItemAtPosition(i);
                String macAddress = entry.toString().substring(0,17);
-
-                final BluetoothDevice device = mBtAdapter
-                        .getRemoteDevice(macAddress);
-                pairDevice(device);
-
-                Toast.makeText(getApplicationContext(), "Paired", Toast.LENGTH_SHORT).show();
-                finish();
+               if(macAddress.equals(MacAddress)) {
+                   final BluetoothDevice device = mBtAdapter
+                           .getRemoteDevice(macAddress);
+                   pairDevice(device);
+                   Toast.makeText(getApplicationContext(), "Paired and Ready to Connect",
+                           Toast.LENGTH_SHORT).show();
+                   finish();
+               }else{
+                   Toast.makeText(getApplicationContext(),"Selected Device is not StepCounter",
+                           Toast.LENGTH_SHORT).show();
+               }
 
             }
         });
@@ -99,7 +101,6 @@ public class AvailiableDevice extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("Name123","here");
             String action = intent.getAction();
 
             if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
@@ -111,11 +112,12 @@ public class AvailiableDevice extends AppCompatActivity {
                 } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     //bluetooth device found
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    mDeviceList.add(device.getAddress() + ", " + device.getName()); // get mac address
-                    // Toast.makeText(getApplicationContext(), "Scanning", Toast.LENGTH_SHORT).show();
-                    Log.d("Name123","here123");
-                    ArrayList<String> list = new ArrayList<String>(mDeviceList);
-                    adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+                    mDeviceList.add(device.getAddress() + ", " + device.getName());
+                    // get mac address
+
+                   ArrayList<String> list = new ArrayList<String>(mDeviceList);
+                    adapter = new ArrayAdapter<String>(getApplicationContext(),
+                            android.R.layout.simple_list_item_1, list);
                     mLvDevices.setAdapter(adapter);
 
                 }
@@ -125,7 +127,6 @@ public class AvailiableDevice extends AppCompatActivity {
 
 
 
-            Log.d("Name123","here1235");
 
 
         }
