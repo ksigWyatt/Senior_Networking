@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCharacteristicChanged(BluetoothGatt gatt,
                                                 BluetoothGattCharacteristic characteristic) {
-
+               //    received step value from Arduino 101
                 long value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT32,
                         0) & 0x00000000ffffffffL;
 
