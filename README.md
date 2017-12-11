@@ -8,7 +8,7 @@ Look at the bottom of this page for all third party library used in this project
 <img src="https://i.imgur.com/uRs1d5M.png" width="600" height="625"> <img src="https://i.imgur.com/CWYD9Kc.png" width="600" height="625">
 
 
-Third party libary used : https://github.com/dmytrodanylyk/android-process-button  
+Third party library used : https://github.com/dmytrodanylyk/android-process-button  
                           https://github.com/daimajia/AndroidViewAnimations  
                           https://github.com/PhilJay/MPAndroidChart
                           
