@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1009686784017",
+    "firebase_url": "https://stepcounter-bbff0.firebaseio.com",
+    "project_id": "stepcounter-bbff0",
+    "storage_bucket": "stepcounter-bbff0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009686784017:android:b9f0d324c2594d51",
+        "android_client_info": {
+          "package_name": "com.sn.stepcounter.stepcounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009686784017-fhs7gbmsrjlehqctkj0fac080b7fppuo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sn.stepcounter.stepcounter",
+            "certificate_hash": "142711a5ba835a161c3861d9aac07da93e09acbb"
+          }
+        },
+        {
+          "client_id": "1009686784017-sp57bd96d7vqdulib0nd0068sjg7idqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiaPaOJueKcjz7Xaazmjzks4iPWhLNUgg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009686784017-sp57bd96d7vqdulib0nd0068sjg7idqs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
