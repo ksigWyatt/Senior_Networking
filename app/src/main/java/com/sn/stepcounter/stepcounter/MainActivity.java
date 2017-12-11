@@ -1,4 +1,5 @@
 package com.sn.stepcounter.stepcounter;
+// github  repository link for this project : https://github.com/ksigWyatt/Senior_Networking
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -9,11 +10,10 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Build;
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,11 +21,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.dd.processbutton.iml.ActionProcessButton;
-
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,8 +33,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -44,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
+
 
 /* YOYO Animation Libary used : https://github.com/daimajia/AndroidViewAnimations*/
 public class MainActivity extends AppCompatActivity {
@@ -207,11 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-
-
                 }
-
-
             }
 
             @Override
@@ -228,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCharacteristicChanged(BluetoothGatt gatt,
                                                 BluetoothGattCharacteristic characteristic) {
-
+               //    received step value from Arduino 101
                 long value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT32,
                         0) & 0x00000000ffffffffL;
 
