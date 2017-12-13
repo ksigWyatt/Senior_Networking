@@ -1,0 +1,210 @@
+Index: app/src/main/java/com/sn/stepcounter/stepcounter/Result.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/sn/stepcounter/stepcounter/Result.java	(date 1512017897000)
++++ app/src/main/java/com/sn/stepcounter/stepcounter/Result.java	(revision )
+@@ -46,7 +46,7 @@
+     BarChart chart;
+     FirebaseUser currentUser;
+     ArrayList<StepData> mDataArrayList;
+-    TextView reuslt_date,reuslt_distance,reuslt_steps;
++    TextView result_date,result_distance,result_steps;
+     RelativeLayout mRelativeLayout;
+ 
+ 
+@@ -65,9 +65,9 @@
+         chart = findViewById(R.id.chart);
+         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+         mDataArrayList = new ArrayList<>();
+-        reuslt_date =findViewById(R.id.result_date);
+-        reuslt_distance = findViewById(R.id.result_distance);
+-        reuslt_steps = findViewById(R.id.result_steps);
++        result_date =findViewById(R.id.result_date);
++        result_distance = findViewById(R.id.result_distance);
++        result_steps = findViewById(R.id.result_steps);
+         mRelativeLayout =findViewById(R.id.result_layout);
+ 
+ 
+@@ -93,9 +93,9 @@
+ 
+                 totalMiles = totalSteps/5000;
+ 
+-                reuslt_date.setText("Weekly Report");
+-                reuslt_distance.setText("Total Miles:\t"+totalMiles);
+-                reuslt_steps.setText("Total Steps:\t"+ (int)totalSteps);
++                result_date.setText("Weekly Report");
++                result_distance.setText("Total Miles:\t"+totalMiles);
++                result_steps.setText("Total Steps:\t"+ (int)totalSteps);
+ 
+ 
+ 
+@@ -184,7 +184,7 @@
+              @Override
+              public void onValueSelected(Entry e, Highlight h) {
+ 
+-                // Toast.makeText(getApplicationContext(),String.valueOf((int) e.getX()),Toast.LENGTH_SHORT).show();
++               // Toast.makeText(getApplicationContext(),String.valueOf((int) e.getX()),Toast.LENGTH_SHORT).show();
+                  DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("UsersStepData/"
+                          +currentUser.getUid()+"/WeeklyStepData");
+                  String day = days[(int)e.getX()];
+@@ -193,12 +193,20 @@
+                      @Override
+                      public void onDataChange(DataSnapshot dataSnapshot) {
+                          StepData data =dataSnapshot.getValue(StepData.class);
+-                         if(data.getDate()!=null && (int) e.getX()!=0){
++                         if(data.getDate()!=null) {
++                             result_date.setVisibility(View.VISIBLE);
++                             result_distance.setVisibility(View.VISIBLE);
+                              YoYo.with(Techniques.FadeIn).duration(500).repeat(0).playOn(mRelativeLayout);
+ 
+-                             reuslt_date.setText(day2+" "+data.getDate());
+-                             reuslt_steps.setText("Steps:   "+String.valueOf((int)e.getY()));
+-                             reuslt_distance.setText("Miles:   "+String.valueOf(e.getY()/5000));
++                             result_date.setText(day2 + " " + data.getDate());
++                             result_steps.setText("Steps:   " + String.valueOf((int) e.getY()));
++                             result_distance.setText("Miles:   " + String.valueOf(e.getY() / 5000));
++                         }else if(data.getDate()==null){
++                             YoYo.with(Techniques.FadeIn).duration(500).repeat(0).playOn(mRelativeLayout);
++
++                             result_date.setVisibility(View.INVISIBLE);
++                             result_steps.setText("No Data Avaliable");
++                             result_distance.setVisibility(View.INVISIBLE);
+                          }else{
+                              DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("UsersStepData/"
+                                      +currentUser.getUid()+"/WeeklyStepData");
+@@ -214,10 +222,11 @@
+ 
+                                      }
+                                      totalMiles = totalSteps/5000;
+-
+-                                     reuslt_date.setText("Weekly Report");
+-                                     reuslt_distance.setText("Total Miles:   "+totalMiles);
+-                                     reuslt_steps.setText("Total Steps:   "+ (int)totalSteps);
++                                     result_date.setVisibility(View.VISIBLE);
++                                     result_distance.setVisibility(View.VISIBLE);
++                                     result_date.setText("Weekly Report");
++                                     result_distance.setText("Total Miles:   "+totalMiles);
++                                     result_steps.setText("Total Steps:   "+ (int)totalSteps);
+ 
+                                  }
+ 
+@@ -255,11 +264,13 @@
+ 
+                          }
+                          totalMiles = totalSteps/5000;
++                         result_date.setVisibility(View.VISIBLE);
++                         result_distance.setVisibility(View.VISIBLE);
+ 
+                          YoYo.with(Techniques.FadeIn).duration(500).repeat(0).playOn(mRelativeLayout);
+-                         reuslt_date.setText("Weekly Report");
+-                         reuslt_distance.setText("Total Miles:   "+totalMiles);
+-                         reuslt_steps.setText("Total Steps:   "+ (int)totalSteps);
++                         result_date.setText("Weekly Report");
++                         result_distance.setText("Total Miles:   "+totalMiles);
++                         result_steps.setText("Total Steps:   "+ (int)totalSteps);
+ 
+                      }
+ 
+Index: app/src/main/java/com/sn/stepcounter/stepcounter/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/sn/stepcounter/stepcounter/MainActivity.java	(date 1512017897000)
++++ app/src/main/java/com/sn/stepcounter/stepcounter/MainActivity.java	(revision )
+@@ -50,7 +50,7 @@
+     private  BluetoothAdapter mBluetoothAdapter;;
+     private BluetoothDevice mBluetoothDevice;
+     final String TAG = "Name123";
+-    final String MacAddress = "98:4F:EE:0F:96:90";
++    final String MacAddress = "98:4F:EE:0F:97:23";
+     final String UUIDStr ="19b10012-e8f2-537e-4f6c-d104768a1214";
+     final String serviceUUID ="19b10010-e8f2-537e-4f6c-d104768a1214";
+      final UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+@@ -466,6 +466,7 @@
+                     if (!dataSnapshot.child(day).child("date").getValue(String.class).equals(date)) {
+                         for (DataSnapshot childSnap : dataSnapshot.getChildren()) {
+                             mref.child(childSnap.getKey()).child("stepsCount").setValue((float) 0);
++                            mref.child(childSnap.getKey()).child("date").setValue(null);
+                         }
+                     }
+                 }
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(date 1512017897000)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -10,7 +10,6 @@
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+-        android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+         <activity
+diff --git app/src/main/res/drawable-mdpi/ic_exit.png app/src/main/res/drawable-mdpi/ic_exit.png
+index 4789c732a242f4a4848cd6afd0d57b8937c50064..dc8136b2a2645a40ac762a3d22eabdc90ea3ffcd
+GIT binary patch
+literal 283
+zc$@(n0p$LPP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80002uNkl<Zc-muN
+z7zLvM4gCNAUkHf%fcO{?pP>>4nbiZt0>n6A0u?Pr$34V2-~?3hRv_-A65a+231S=o
+zb8Q<HqqP%e?(lH{P@Wrz{RYGVP|N2-)ujxC1B}tKX$sXGKtjCQ0r7ES96=KYKn=Dh
+z#u21OfisD?5v{OEp;j881g8wN1JWsRfE$Up37_S(PK35-*)g4-+0dF8%V|{*84+ta
+ztsKA$#0!bBoR*al$Pqy!w>qY!17J<EEg(lw32!B(Nj8awjnY1193TvJ#0e@|3^J=9
+h)Z`!S_>2N{0088$*3e~>PJsXb002ovPDHLkV1l9GYQX>i
+
+diff --git app/src/main/res/drawable-xhdpi/ic_exit.png app/src/main/res/drawable-xhdpi/ic_exit.png
+index fd952b0286c210f321eb8b3326d5f5e9c3a5f058..2397ac24d0ced21da5845f0df4f17bbf44bf0ada
+GIT binary patch
+literal 472
+zc$@*)0Vn>6P)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF0004>Nkl<Zc-rln
+zze)o^7{m`B!a~J}e;}2GPY|24@+GcYut;GaND&Zxihz}tA%et0M8)7co!`M81UYks
+zvzHxr2By4a=f~am?d@)sNs=T<k|edLEXyPF*gQ8c&0mpu>E|{w_t4=l%pVbk{>^XZ
+zb5!^fvhb@AdI$g$!tk|62mlLW0CNO@rh$j%JThN56~<5i1`&3tylJiiAOHdoCjc8`
+zJ6Qns{HgiHTqFlzC44<rkqm%_@GuC`1F&bd%nxf;ZAA)iz`pr01cYD!0<^0j5NH7S
+z$sU-WkPxT<_z52(A<zLpL!bnJgb=a|OgiwiWn-h*B!F0UcZ$>jtc8#Y0GBcVx2aFy
+zwgcb&B|Li@Y+D+;f4dGqg=bv~!@@KE4DBJqv;7Y5nrF!HOdBFW!ZU4&-G>Oz^ah-n
+zU(w;&w#9!!aG=^kbudyxaKPe9cQm#G?k+kU6#xMcfX)D1RS+WcFw`Zf=hUys-4Fv9
+zBLMWxpM>Gxt3wx5fw?4uP~C0L(N(tZKZlrW!or_49cPjxNs=T<E&2v$kw|*^(LwY8
+O0000<MNUMnLSTZOxW?fC
+
+diff --git app/src/main/res/drawable-xxhdpi/ic_exit.png app/src/main/res/drawable-xxhdpi/ic_exit.png
+index 4499c2236926d9219bc56e9c050f1a0f4403fedd..43a38cec85a2a3ed13ebccdec30e64a2a0d1ee84
+GIT binary patch
+literal 822
+zc$@(?1Ihe}P)<h;3K|Lk000e1NJLTq003YB003YJ1^@s6;+S_h00090Nkl<Zc-rlq
+zPfrs;7{&`2gBThNT)c3>XyU<-qF=$_MKD1RgmBWENB>;##7WY`i}6Y$^$*&F;&-a=
+z#y3H_opz^X-kI+Fp5#e5vEBDK^X$&f>};cf5JCtcgb+dqA%su`_51xf@jda5xFzn0
+z&&7Xg>f+o^#7E+7@kY$zFN*iXKWkj@asIB2@49vIZ;0P!T=+r1HiMwCvro}W-mwC3
+zUwlfzhsM!{1%N$@?ew+<fX@`#=_3mO-4Q>ar?+WeYwC`kqwD-nEC7sZ0d4WRc(ta!
+zqY#|qgxCO%#mhAwc&=(saMl0-000000000003hgZm@l450U!bZE&fyS<Kk}s7y{7Z
+zKhcSiGw~(>i~z|0T@Y^#nQ_~+>IvBb(3ZcYt$y&BXI2oh1TYXguH%}-QLX?UdQ9{O
+z?FqR8xFtTQ2q0)2<$MijiVuAt)D}R*QE1bnCj^P3tO5KNM;~IvQT70|2rJ@`G2#dS
+zmwUpYbsPcUaxvC?FU-?I0Ko8`U=~LJh#W_$j008@bg^9IQ|LHK1;BBl{^8LJCW@n3
+z7zxjsy?O!wuHIg81b~1L01(f;s>{j&5UBXYbSD5Jy--oL_$dMSmZ*P)h@BJxq`Gdu
+z6(V+c6mj(vH4_yd0Mk!ZP82%;82u3LAav{iAad*gpj?Dy%h&-xx#hpNj2!@6ocxmb
+zoptQY+DJIm!mK6V3vR$MP<Bfbn;tE{7oz3o4&YJD*a5)57c-v4iXE;27Z6@JHp=LQ
+zZu!{*(BocH2&S<E0Cyaj#0~(4LwK(5j4c2l-iz9%?+61RjnOy&00000000000Dybj
+z%G)|?RY$MuzNk^RtsJ*;Ydhh02&Q#=%*L%93jkl(qS)z{1pv0LkGX}t9OQxcH^nZw
+z_>#z73joD)n3oj1<Xy9k1m!?CJr_pR-EWF->R8_s7b_KBWgbVT`az4uSOb%Jy(aAI
+z-BCA#qIdNp7Q6a6m$?Q)2qA<JLI@#*5JDC77bJMQqQ4TzNB{r;07*qoM6N<$f<@wS
+AzyJUM
+
+diff --git app/src/main/res/drawable-hdpi/ic_exit.png app/src/main/res/drawable-hdpi/ic_exit.png
+index 718cb06462a8f206e525df49e3cf672a06232b4f..ea23986bbf1ba42441486b84a97f41cc73302028
+GIT binary patch
+literal 425
+zc$@*L0apHrP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0004SNkl<Zc-rlm
+z!D_-l5J2@(ick>mrPgB(f|t_2DX3_${}GgmA0)LYiFl~~Q=Ekq;<6jv&1N!-Gw?2A
+z!o1C7cXrciad2>Okc}+M`oIc^ffF)6Km<J7CjScT8c1AbYb5~}tqCOmPh=yIN;laf
+zb5Tw<0>v8$nJ&;lq9;pK6-a;w#L1(>0(UI{|7`;^VB(!Xp8ULU?Nt2clfZ{`?a@@C
+zX@Mc|tCBz!sQ3~N^Ik??QEz$@jSJ*SjC4=pngj`ff<$6kPOjd8M@PIX`l`}$awU*B
+z<WC`>EvGtWp}J6(lWziHT>=M(=t?N8vxHpr_HT-r=%h=Y+BB+Ll|vsEGSzB)EE{=B
+ztwf+X(FoC6i3-hJpc{E#y3w&s*-+cie43UG#VzH+q-@A->P<(TPbKa_;7Ldz(RCq^
+zN>gEih`a%cZ3H%ij@Oqq0t3y-0yf{ki|xxa$e%>oK;oj5zQkuP{@BOC!9h39EWc*(
+T)bnOk00000NkvXXu0mjfL%X}o
+

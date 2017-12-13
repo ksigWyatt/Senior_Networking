@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightOrange">
+
+
+    <RelativeLayout
+        android:id="@+id/result_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:background="@color/lightOrange">
+
+        <TextView
+            android:id="@+id/result_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Date"
+            android:textColor="@color/blue_pressed"
+            android:textSize="23dp"/>
+
+        <TextView
+            android:id="@+id/result_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/result_date"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:text="Distance"
+            android:textColor="@color/blue_pressed"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/result_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/result_distance"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:text="Steps"
+            android:textColor="@color/blue_pressed"
+            android:textSize="25dp"/>
+    </RelativeLayout>
+
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:layout_alignParentBottom="true"
+           android:layout_alignParentStart="true"
+           android:background="@color/lightOrange"
+           android:id="@+id/linearLayout">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/chart"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:text="Steps"
+            android:textSize="12dp"/>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+
+            >
+        </com.github.mikephil.charting.charts.BarChart>
+       </LinearLayout>
+
+
+
+</RelativeLayout>
