@@ -259,9 +259,7 @@ public class login extends AppCompatActivity {
     }
 
 
-    public void password_clicked(View view) {
 
-    }
 }
 
 

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.sn.stepcounter.stepcounter.Fragment_steps">
+
+
+
+    <TextView
+        android:id="@+id/steps_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="0"
+        android:textColor="@android:color/white"
+        android:textSize="100dp"
+        ></TextView>
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/date"
+    android:textSize="25dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_margin="10dp"
+    android:text="date"
+    android:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/steps_count"
+        android:layout_centerHorizontal="true"
+        android:text="Steps"
+        android:textColor="@android:color/white"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/mile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="22dp"/>
+
+    <com.dd.processbutton.iml.ActionProcessButton
+        android:layout_width="wrap_content"
+        android:id="@+id/connect_btn"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/steps_count"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Connect"
+        android:textColor="@android:color/white"
+        app:pb_colorComplete="@color/green_complete"
+        app:pb_colorNormal="@color/colorAccent"
+        app:pb_colorPressed="@color/colorAccent"
+        app:pb_colorProgress="@color/black"
+        app:pb_textComplete="Success"
+        app:pb_textProgress="Connecting"
+        app:pb_textError="Error"
+        app:pb_colorError="@color/red_error"></com.dd.processbutton.iml.ActionProcessButton>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        app:menu_fab_size="normal"
+        app:menu_colorNormal="#DA4336"
+        app:menu_colorPressed="#E75043"
+        app:menu_colorRipple="#99FFFFFF"
+        app:menu_animationDelayPerItem="50"
+        app:menu_icon="@drawable/fab_add"
+        app:menu_buttonSpacing="0dp"
+        app:menu_openDirection="up"
+        app:menu_backgroundColor="@android:color/transparent"
+       >
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/connect_btn"
+        android:layout_gravity="bottom|right"
+        android:layout_marginEnd="36dp"
+        android:src="@drawable/ic_exit"
+        app:fab_colorNormal="#DA4336"
+        app:fab_colorPressed="#E75043"
+        app:fab_colorRipple="#99FFFFFF"
+        android:onClick="logoutClicked"
+        app:fab_size="normal"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/result_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/connect_btn"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="36dp"
+            android:onClick="resultClicked"
+            android:src="@drawable/ic_chart"
+            app:fab_colorNormal="#DA4336"
+            app:fab_colorPressed="#E75043"
+            app:fab_colorRipple="#99FFFFFF"
+            app:fab_size="normal"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/sound_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/connect_btn"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="36dp"
+            android:onClick="soundClicked"
+            android:src="@drawable/ic_sound_on"
+            app:fab_colorNormal="#DA4336"
+            app:fab_colorPressed="#E75043"
+            app:fab_colorRipple="#99FFFFFF"
+            android:tag="on"
+            app:fab_size="normal"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+</RelativeLayout>
