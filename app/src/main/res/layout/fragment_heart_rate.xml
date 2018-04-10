@@ -1,13 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.sn.stepcounter.stepcounter.Fragment_heartRate">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:layout_width="100dp"
+        android:src="@drawable/heartrate_icon"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="100dp" />
 
-</FrameLayout>
+
+
+    <TextView
+        android:id="@+id/heart_bpm"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="48dp"
+        android:text="120 BPM" />
+
+
+
+    <com.dd.processbutton.FlatButton
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/heart_bpm"
+        android:layout_width="wrap_content"
+        android:textAllCaps="true"
+        android:text="start"
+        android:textSize="14dp"
+        android:textColor="@android:color/white"
+        app:pb_colorNormal="@color/colorAccent"
+        app:pb_colorPressed="@color/colorAccent"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

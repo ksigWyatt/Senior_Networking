@@ -30,15 +30,13 @@
     android:text="date"
     android:textColor="@android:color/white"/>
 
-    <TextView
-        android:id="@+id/steps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/steps_count"
+    <ImageView
+        android:layout_alignParentTop="true"
+        android:src="@drawable/footsteps"
+        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
-        android:text="Steps"
-        android:textColor="@android:color/white"
-        android:textSize="30dp"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
     <TextView
         android:id="@+id/mile"
@@ -57,7 +55,6 @@
         android:gravity="center"
         android:layout_below="@+id/steps_count"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:text="Connect"
         android:textColor="@android:color/white"
         app:pb_colorComplete="@color/green_complete"
@@ -90,7 +87,7 @@
        >
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -101,7 +98,6 @@
         app:fab_colorNormal="#DA4336"
         app:fab_colorPressed="#E75043"
         app:fab_colorRipple="#99FFFFFF"
-        android:onClick="logoutClicked"
         app:fab_size="normal"/>
 
         <com.github.clans.fab.FloatingActionButton
@@ -112,7 +108,6 @@
             android:layout_below="@+id/connect_btn"
             android:layout_gravity="bottom|right"
             android:layout_marginEnd="36dp"
-            android:onClick="resultClicked"
             android:src="@drawable/ic_chart"
             app:fab_colorNormal="#DA4336"
             app:fab_colorPressed="#E75043"
@@ -126,7 +121,6 @@
             android:layout_below="@+id/connect_btn"
             android:layout_gravity="bottom|right"
             android:layout_marginEnd="36dp"
-            android:onClick="soundClicked"
             android:src="@drawable/ic_sound_on"
             app:fab_colorNormal="#DA4336"
             app:fab_colorPressed="#E75043"

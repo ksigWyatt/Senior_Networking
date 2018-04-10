@@ -48,7 +48,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 /* YOYO Animation Libary used : https://github.com/daimajia/AndroidViewAnimations*/
-public class Fragment_steps extends Fragment {
+public class Fragment_steps extends Fragment implements View.OnClickListener {
 
     final int REQUEST_ENABLE_BT = 1;
     private BluetoothAdapter mBluetoothAdapter;
@@ -71,12 +71,12 @@ public class Fragment_steps extends Fragment {
     private TextView stepsCount, date, miles;
     private long steps = 0;
     private FirebaseDatabase database;
-    FloatingActionMenu mFloatingActionMenu;
-    FloatingActionButton soundBtn;
+    private FloatingActionMenu mFloatingActionMenu;
     private FirebaseUser currentUser;
     private MediaPlayer mediaPlayer;
     private AlertDialog.Builder builder;
     private AlertDialog mAlertDialog;
+    private FloatingActionButton logout,showResultBtn,soundBtn;
     private View fragView;
 
 
@@ -84,7 +84,7 @@ public class Fragment_steps extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragView = inflater.inflate(R.layout.fragment_steps,container,false);
-        soundBtn = fragView.findViewById (R.id.sound_btn);
+
         mediaPlayer = MediaPlayer.create(getContext(), R.raw.smw_coin);
 
 
@@ -134,6 +134,14 @@ public class Fragment_steps extends Fragment {
         miles = fragView.findViewById(R.id.mile);
         miles.setText("0 \t miles");
         mFloatingActionMenu = fragView.findViewById(R.id.menu);
+        showResultBtn = fragView.findViewById(R.id.result_btn);
+        logout = fragView.findViewById(R.id.logout_btn);
+        soundBtn = fragView.findViewById (R.id.sound_btn);
+        //set Global Click Listener
+        showResultBtn.setOnClickListener(this);
+        logout.setOnClickListener(this);
+        soundBtn.setOnClickListener(this);
+
         resetWeekly();
 
 
@@ -531,7 +539,7 @@ public class Fragment_steps extends Fragment {
     }
 
     public void startActivity(Class<?> clazz) {
-        startActivity(new Intent(getActivity(), clazz));
+        getActivity().startActivity(new Intent(getContext(),clazz));
     }
 
     public void logoutClicked(View view) {
@@ -561,6 +569,17 @@ public class Fragment_steps extends Fragment {
         }
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId()== R.id.result_btn){
+            resultClicked(view);
+        }else if(view.getId() == R.id.sound_btn){
+            soundClicked(view);
+        }else if(view.getId() == R.id.logout_btn){
+            logoutClicked(view);
+        }
     }
 }
 
